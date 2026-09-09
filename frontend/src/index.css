@@ -1,0 +1,224 @@
+/* Plain CSS, no framework. The interface has one job -- make the citation
+   one click away from the claim -- and a utility framework would be more
+   configuration than the whole stylesheet. */
+
+:root {
+  color-scheme: light dark;
+
+  --bg: #fbfaf8;
+  --panel: #ffffff;
+  --ink: #1b1a18;
+  --muted: #6b6862;
+  --line: #e4e0d9;
+  --accent: #7a4f2c;
+  --accent-soft: #f2e9e1;
+  --warn: #8a5a00;
+  --warn-soft: #fdf4e0;
+  --danger: #9a2f2f;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #161513;
+    --panel: #1f1e1b;
+    --ink: #ece9e3;
+    --muted: #a09b92;
+    --line: #322f2a;
+    --accent: #d9a273;
+    --accent-soft: #33291f;
+    --warn: #e0b25e;
+    --warn-soft: #2e2716;
+    --danger: #e08585;
+  }
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font: 16px/1.6 ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+}
+
+main {
+  max-width: 46rem;
+  margin: 0 auto;
+  padding: 2.5rem 1.25rem 9rem;
+}
+
+header h1 {
+  margin: 0 0 0.25rem;
+  font-size: 1.6rem;
+  letter-spacing: -0.01em;
+}
+
+header p,
+.empty {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.94rem;
+}
+
+.empty { margin: 2.5rem 0; }
+
+.thread {
+  list-style: none;
+  margin: 2rem 0 0;
+  padding: 0;
+}
+
+.thread > li {
+  border-top: 1px solid var(--line);
+  padding: 1.75rem 0;
+}
+
+.asked {
+  margin: 0 0 0.9rem;
+  font-weight: 600;
+}
+
+.answer {
+  margin: 0;
+  white-space: pre-wrap;
+}
+
+.answer.abstained {
+  padding: 0.75rem 0.9rem;
+  border-left: 3px solid var(--warn);
+  background: var(--warn-soft);
+  color: var(--warn);
+  border-radius: 0 4px 4px 0;
+}
+
+/* Citation markers are buttons, not decoration -- clicking one opens the
+   passage the claim came from. */
+.cite {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 1.25rem;
+  height: 1.25rem;
+  margin: 0 0.12rem;
+  padding: 0 0.3rem;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: var(--accent-soft);
+  color: var(--accent);
+  font: inherit;
+  font-size: 0.72rem;
+  font-weight: 700;
+  cursor: pointer;
+  vertical-align: 0.15em;
+}
+
+.cite:hover { border-color: var(--accent); }
+
+.sources {
+  list-style: none;
+  margin: 1rem 0 0;
+  padding: 0;
+  display: grid;
+  gap: 0.4rem;
+}
+
+.source {
+  display: flex;
+  gap: 0.6rem;
+  padding: 0.6rem 0.75rem;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  background: var(--panel);
+  font-size: 0.88rem;
+}
+
+.source.open { border-color: var(--accent); }
+
+.mark {
+  flex: none;
+  width: 1.25rem;
+  height: 1.25rem;
+  display: grid;
+  place-items: center;
+  border-radius: 999px;
+  background: var(--accent-soft);
+  color: var(--accent);
+  font-size: 0.72rem;
+  font-weight: 700;
+}
+
+.where { margin: 0; font-weight: 600; }
+.head { color: var(--muted); font-weight: 400; }
+
+.excerpt {
+  margin: 0.5rem 0 0;
+  color: var(--muted);
+  white-space: pre-wrap;
+}
+
+.meta {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin: 1rem 0 0;
+  color: var(--muted);
+  font-size: 0.82rem;
+}
+
+.meta button {
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  padding: 0.2rem 0.7rem;
+  background: transparent;
+  color: var(--muted);
+  font: inherit;
+  font-size: 0.82rem;
+  cursor: pointer;
+}
+
+.meta button:hover { border-color: var(--accent); color: var(--accent); }
+
+.working { color: var(--muted); font-style: italic; }
+.error { color: var(--danger); }
+
+.composer {
+  position: fixed;
+  left: 50%;
+  bottom: 0;
+  transform: translateX(-50%);
+  width: min(46rem, 100%);
+  display: flex;
+  gap: 0.6rem;
+  padding: 1rem 1.25rem 1.5rem;
+  background: linear-gradient(transparent, var(--bg) 22%);
+}
+
+.composer textarea {
+  flex: 1;
+  resize: none;
+  padding: 0.65rem 0.8rem;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--panel);
+  color: var(--ink);
+  font: inherit;
+}
+
+.composer textarea:focus {
+  outline: 2px solid var(--accent);
+  outline-offset: -1px;
+}
+
+.send {
+  align-self: stretch;
+  padding: 0 1.1rem;
+  border: 0;
+  border-radius: 8px;
+  background: var(--accent);
+  color: var(--bg);
+  font: inherit;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.send:disabled { opacity: 0.45; cursor: default; }

@@ -1,0 +1,15 @@
+{"question": "Why does quicksort degrade to O(n^2)?", "expected_sources": ["sorting.md"], "answerable": true}
+{"question": "What does it mean for a sort to be stable?", "expected_sources": ["sorting.md"], "answerable": true}
+{"question": "Why is merge sort not used when memory is tight?", "expected_sources": ["sorting.md"], "answerable": true}
+{"question": "Can an index on (a, b) serve a query filtering only on b?", "expected_sources": ["indexing.md"], "answerable": true}
+{"question": "Why can a table have only one clustered index?", "expected_sources": ["indexing.md"], "answerable": true}
+{"question": "What is a covering index and what does it save?", "expected_sources": ["indexing.md"], "answerable": true}
+{"question": "Why would the planner ignore an index I created?", "expected_sources": ["indexing.md"], "answerable": true}
+{"question": "What is the difference between amortised and average cost?", "expected_sources": ["complexity.md"], "answerable": true}
+{"question": "My loop is slow even though it only passes over the list once. Why?", "expected_sources": ["complexity.md"], "answerable": true}
+{"question": "When is Theta a stronger statement than Big-O?", "expected_sources": ["complexity.md"], "answerable": true}
+{"question": "Which sort gives O(n log n) worst case without extra memory?", "expected_sources": ["sorting.md"], "answerable": true}
+{"question": "Why does memoisation sometimes make things worse?", "expected_sources": ["complexity.md"], "answerable": true}
+{"question": "What isolation level prevents phantom reads?", "expected_sources": [], "answerable": false}
+{"question": "How do I configure a Kubernetes ingress controller?", "expected_sources": [], "answerable": false}
+{"question": "What is the vanishing gradient problem in RNNs?", "expected_sources": [], "answerable": false}
