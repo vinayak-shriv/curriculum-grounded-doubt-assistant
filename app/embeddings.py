@@ -85,7 +85,10 @@ class MiniLMEmbedder:
         from sentence_transformers import SentenceTransformer  # lazy: heavy import
 
         self.model = SentenceTransformer(model_name)
-        self.dim = int(self.model.get_sentence_embedding_dimension())
+        # Renamed in sentence-transformers 5.x; the old name still works but
+        # warns. Try the new one first and fall back for older installs.
+        getter = getattr(self.model, "get_embedding_dimension", None) or             self.model.get_sentence_embedding_dimension
+        self.dim = int(getter())
 
     def encode(self, texts: list[str]) -> np.ndarray:
         vectors = self.model.encode(

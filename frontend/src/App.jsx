@@ -51,13 +51,21 @@ export default function App() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ question: q, session_id: sessionId.current }),
       });
-      if (!res.ok) throw new Error(`Server returned ${res.status}`);
+      if (!res.ok) {
+        // The server sends a specific reason (a missing key, an unbuilt
+        // index). Surface it rather than collapsing every failure into
+        // "can't reach the server", which sends you debugging the wrong end.
+        const detail = await res.json().then((d) => d.detail).catch(() => null);
+        throw new Error(detail || `Server returned ${res.status}`, { cause: "server" });
+      }
       const data = await res.json();
       sessionId.current = data.session_id;
       setTurns((t) => [...t, { question: q, ...data }]);
     } catch (e) {
       setError(
-        `Couldn't reach the assistant at ${API}. Check that the server is running.`
+        e.cause === "server"
+          ? e.message
+          : `Couldn't reach the assistant at ${API}. Check that the server is running.`
       );
       setQuestion(q);
     } finally {

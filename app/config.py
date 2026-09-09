@@ -40,8 +40,15 @@ class Config:
     # --- abstention gate ---
     # Read against the RAW cosine and BM25 scores, never the fused RRF score,
     # which is rank-only and identical across queries. See retrieval.py.
-    abstain_min_similarity: float = 0.35
-    abstain_min_bm25: float = 2.0
+    # Calibrated against eval/questions.example.jsonl with the MiniLM embedder:
+    # the out-of-corpus questions top out at 0.214 cosine and the weakest
+    # answerable one sits at 0.407, so 0.32 falls in the gap. BM25 does NOT
+    # separate the two classes on a corpus this small -- common English words
+    # give an out-of-corpus question a respectable lexical score -- so its
+    # threshold is set above the unanswerable range rather than in a gap that
+    # does not exist. Recalibrate both against your own corpus; see README.
+    abstain_min_similarity: float = 0.32
+    abstain_min_bm25: float = 5.0
 
     # --- generation ---
     answer_model: str = "claude-sonnet-5"
