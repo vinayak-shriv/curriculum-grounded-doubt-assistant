@@ -1,0 +1,27 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  tests:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: ["3.11", "3.12"]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+      # The suite runs entirely against the hash embedder, so it needs neither a
+      # model download nor an API key. Installing the full requirements.txt would
+      # pull ~800 MB of torch to run tests that never touch it.
+      - name: Install test dependencies
+        run: pip install numpy pytest python-dotenv
+      - name: Run tests
+        env:
+          EMBEDDER: hash
+        run: pytest -q

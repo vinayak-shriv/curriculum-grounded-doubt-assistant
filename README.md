@@ -1,5 +1,7 @@
 # Ask the notes
 
+[![CI](https://github.com/vinayak-shriv/curriculum-grounded-doubt-assistant/actions/workflows/ci.yml/badge.svg)](https://github.com/vinayak-shriv/curriculum-grounded-doubt-assistant/actions/workflows/ci.yml)
+
 A retrieval-augmented assistant that answers questions from a set of course
 notes, cites the passage each claim came from, and refuses to answer when the
 notes do not cover the question.
@@ -36,7 +38,7 @@ To run without downloading a model or calling an API, set `EMBEDDER=hash`. The
 retrieval path works end to end; answers still need a key.
 
 ```bash
-pytest                                  # 20 tests, offline, no key needed
+pytest                                  # 22 tests, offline, no key needed
 python -m eval.run_eval --no-judge      # retrieval metrics only
 python -m eval.run_eval                 # adds the graded metrics
 ```
@@ -129,6 +131,20 @@ other — that trade is what the gate thresholds are choosing between.
 
 The judge is a model, so these are noisy in the third digit. Treat them as a
 regression gate on a change, not as an absolute score.
+
+### Measured on the sample corpus
+
+`EMBEDDER=minilm python -m eval.run_eval --no-judge`, over the 15 labelled
+questions in `eval/questions.jsonl` (12 answerable, 3 deliberately outside the
+corpus):
+
+| recall@5 | MRR | correct abstentions | false abstentions |
+| ---: | ---: | ---: | ---: |
+| 1.00 | 0.958 | 3/3 | 0/12 |
+
+Fifteen questions over a three-file corpus is a calibration set, not a
+benchmark. It is big enough to catch a regression and far too small to quote as
+an accuracy figure.
 
 ### Tuning the abstention gate
 
