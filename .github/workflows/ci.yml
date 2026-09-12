@@ -21,7 +21,10 @@ jobs:
       # pull ~800 MB of torch to run tests that never touch it.
       - name: Install test dependencies
         run: pip install numpy pytest python-dotenv
+      # "python -m pytest", not "pytest": the module form puts the repository
+      # root on sys.path, which is how "import app" resolves. Bare pytest only
+      # adds tests/, so collection fails with ModuleNotFoundError: app.
       - name: Run tests
         env:
           EMBEDDER: hash
-        run: pytest -q
+        run: python -m pytest -q
